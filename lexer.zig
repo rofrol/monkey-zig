@@ -83,18 +83,18 @@ pub const Lexer = struct {
 
     pub fn next(self: *Lexer) Token {
         var state: State = .start;
-        var result = Token{ .tag = .eof, .loc = .{ .start = self.pos, .end = undefined } };
+        var token = Token{ .tag = .eof, .loc = .{ .start = self.pos, .end = undefined } };
 
         while (true) : (self.pos += 1) {
             if (self.pos >= self.input.len) {
-                result.loc.end = self.pos;
-                return result;
+                token.loc.end = self.pos;
+                return token;
             }
             const c = self.input[self.pos];
             switch (state) {
                 .start => switch (c) {
                     0 => break,
-                    ' ', '\n', '\r', '\t' => result.loc.start = self.pos + 1,
+                    ' ', '\n', '\r', '\t' => token.loc.start = self.pos + 1,
                     '+' => state = .plus,
                     '-' => state = .minus,
                     '*' => state = .asterisk,
@@ -104,45 +104,45 @@ pub const Lexer = struct {
                     '>' => state = .angle_bracket_right,
                     '=' => state = .equal,
                     '{' => {
-                        result.tag = .l_brace;
+                        token.tag = .l_brace;
                         self.pos += 1;
                         break;
                     },
                     '}' => {
-                        result.tag = .r_brace;
+                        token.tag = .r_brace;
                         self.pos += 1;
                         break;
                     },
                     '(' => {
-                        result.tag = .l_paren;
+                        token.tag = .l_paren;
                         self.pos += 1;
                         break;
                     },
                     ')' => {
-                        result.tag = .r_paren;
+                        token.tag = .r_paren;
                         self.pos += 1;
                         break;
                     },
                     ',' => {
-                        result.tag = .comma;
+                        token.tag = .comma;
                         self.pos += 1;
                         break;
                     },
                     ';' => {
-                        result.tag = .semicolon;
+                        token.tag = .semicolon;
                         self.pos += 1;
                         break;
                     },
                     'a'...'z', 'A'...'Z', '_' => {
                         state = .identifier;
-                        result.tag = .identifier;
+                        token.tag = .identifier;
                     },
                     '0'...'9' => {
                         state = .int_literal;
-                        result.tag = .int_literal;
+                        token.tag = .int_literal;
                     },
                     else => {
-                        result.tag = .illegal;
+                        token.tag = .illegal;
                         self.pos += 1;
                         break;
                     },
@@ -150,57 +150,57 @@ pub const Lexer = struct {
                 // NOTE: this break down is so that it's easily extensible
                 // e.g. if we need to support '+=' in the future.
                 .plus => {
-                    result.tag = .plus;
+                    token.tag = .plus;
                     break;
                 },
                 .minus => {
-                    result.tag = .minus;
+                    token.tag = .minus;
                     break;
                 },
                 .asterisk => {
-                    result.tag = .asterisk;
+                    token.tag = .asterisk;
                     break;
                 },
                 .slash => {
-                    result.tag = .slash;
+                    token.tag = .slash;
                     break;
                 },
                 .angle_bracket_left => {
-                    result.tag = .angle_bracket_left;
+                    token.tag = .angle_bracket_left;
                     break;
                 },
                 .angle_bracket_right => {
-                    result.tag = .angle_bracket_right;
+                    token.tag = .angle_bracket_right;
                     break;
                 },
                 .bang => switch (c) {
                     '=' => {
-                        result.tag = .bang_equal;
+                        token.tag = .bang_equal;
                         self.pos += 1;
                         break;
                     },
                     else => {
-                        result.tag = .bang;
+                        token.tag = .bang;
                         break;
                     },
                 },
                 .equal => switch (c) {
                     '=' => {
-                        result.tag = .equal_equal;
+                        token.tag = .equal_equal;
                         self.pos += 1;
                         break;
                     },
                     else => {
-                        result.tag = .equal;
+                        token.tag = .equal;
                         break;
                     },
                 },
                 .identifier => switch (c) {
                     'a'...'z', 'A'...'Z', '_' => {},
                     else => {
-                        var ident = self.input[result.loc.start..self.pos];
+                        var ident = self.input[token.loc.start..self.pos];
                         if (Token.Keywords.get(ident)) |tag| {
-                            result.tag = tag;
+                            token.tag = tag;
                         }
                         break;
                     },
@@ -212,8 +212,8 @@ pub const Lexer = struct {
             }
         }
 
-        result.loc.end = self.pos;
-        return result;
+        token.loc.end = self.pos;
+        return token;
     }
 };
 
