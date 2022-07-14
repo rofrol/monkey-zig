@@ -8,6 +8,20 @@ Based on https://interpreterbook.com/
 
 `watchexec -e zig 'zig test lexer.zig'`
 
+## Run test in original go implementations
+
+After downloading https://interpreterbook.com/waiig_code_1.3.zip
+
+Go to every chapter and do:
+
+```shell
+$ cd 01/src/monkey
+$ go mod init monkey
+$ go test ./lexer
+```
+
+https://stackoverflow.com/questions/65758349/how-to-run-tests-from-go-project-root-folder/72969365#72969365
+
 ## Other implementations in zig
 
 - https://github.com/mhanberg/zonkey
