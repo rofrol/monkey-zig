@@ -22,10 +22,11 @@ $ go test ./lexer
 
 https://stackoverflow.com/questions/65758349/how-to-run-tests-from-go-project-root-folder/72969365#72969365
 
-## Other implementations in zig
+## Other implementations
 
-- https://github.com/mhanberg/zonkey
-- https://github.com/Karitham/singe
+- https://monkeylang.org/
+- in Zig https://github.com/mhanberg/zonkey
+- in Zig https://github.com/Karitham/singe
 - https://github.com/search?q=language%3Azig+monkey&type=code
 - https://github.com/topics/monkey-programming-language
 - https://github.com/topics/monkey-language
