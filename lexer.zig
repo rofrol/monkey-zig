@@ -82,8 +82,8 @@ pub const Lexer = struct {
     };
 
     pub fn next(self: *Lexer) Token {
-        var state: State = .start;
         var token = Token{ .tag = .eof, .loc = .{ .start = self.pos, .end = undefined } };
+        var state: State = .start;
 
         while (true) : (self.pos += 1) {
             if (self.pos >= self.input.len) {
