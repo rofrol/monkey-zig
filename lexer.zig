@@ -194,7 +194,7 @@ pub const Lexer = struct {
                 .identifier => switch (c) {
                     'a'...'z', 'A'...'Z', '_' => {},
                     else => {
-                        var ident = self.input[token.start..self.pos];
+                        const ident = self.input[token.start..self.pos];
                         if (Token.Keywords.get(ident)) |tag| {
                             token.tag = tag;
                         }
