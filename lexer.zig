@@ -335,9 +335,9 @@ test "next token - complete program" {
     };
 
     for (expectations) |expectation| {
-        const next = l.next();
-        try std.testing.expectEqual(expectation.tag, next.tag);
-        const literal = input[next.loc.start..next.loc.end];
+        const t = l.next();
+        try std.testing.expectEqual(expectation.tag, t.tag);
+        const literal = input[t.loc.start..t.loc.end];
         try std.testing.expectEqualStrings(expectation.literal, literal);
     }
 }
