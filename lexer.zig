@@ -2,7 +2,8 @@ const std = @import("std");
 
 pub const Token = struct {
     tag: Tag,
-    loc: Loc,
+    start: usize,
+    end: usize,
 
     pub const Tag = enum {
         illegal,
@@ -45,11 +46,6 @@ pub const Token = struct {
         .{ "else", .keyword_else },
         .{ "return", .keyword_return },
     });
-
-    pub const Loc = struct {
-        start: usize,
-        end: usize,
-    };
 };
 
 pub const Lexer = struct {
@@ -82,19 +78,19 @@ pub const Lexer = struct {
     };
 
     pub fn next(self: *Lexer) Token {
-        var token = Token{ .tag = .eof, .loc = .{ .start = self.pos, .end = undefined } };
+        var token = Token{ .tag = .eof, .start = self.pos, .end = undefined };
         var state: State = .start;
 
         while (true) : (self.pos += 1) {
             if (self.pos >= self.input.len) {
-                token.loc.end = self.pos;
+                token.end = self.pos;
                 return token;
             }
             const c = self.input[self.pos];
             switch (state) {
                 .start => switch (c) {
                     0 => break,
-                    ' ', '\n', '\r', '\t' => token.loc.start = self.pos + 1,
+                    ' ', '\n', '\r', '\t' => token.start = self.pos + 1,
                     '+' => state = .plus,
                     '-' => state = .minus,
                     '*' => state = .asterisk,
@@ -198,7 +194,7 @@ pub const Lexer = struct {
                 .identifier => switch (c) {
                     'a'...'z', 'A'...'Z', '_' => {},
                     else => {
-                        var ident = self.input[token.loc.start..self.pos];
+                        var ident = self.input[token.start..self.pos];
                         if (Token.Keywords.get(ident)) |tag| {
                             token.tag = tag;
                         }
@@ -212,7 +208,7 @@ pub const Lexer = struct {
             }
         }
 
-        token.loc.end = self.pos;
+        token.end = self.pos;
         return token;
     }
 };
@@ -337,7 +333,7 @@ test "next token - complete program" {
     for (expectations) |expectation| {
         const t = l.next();
         try std.testing.expectEqual(expectation.tag, t.tag);
-        const literal = input[t.loc.start..t.loc.end];
+        const literal = input[t.start..t.end];
         try std.testing.expectEqualStrings(expectation.literal, literal);
     }
 }
