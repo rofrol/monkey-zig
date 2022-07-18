@@ -4,11 +4,6 @@ pub const Token = struct {
     tag: Tag,
     loc: Loc,
 
-    pub const Loc = struct {
-        start: usize,
-        end: usize,
-    };
-
     pub const Tag = enum {
         illegal,
         eof,
@@ -50,6 +45,11 @@ pub const Token = struct {
         .{ "else", .keyword_else },
         .{ "return", .keyword_return },
     });
+
+    pub const Loc = struct {
+        start: usize,
+        end: usize,
+    };
 };
 
 pub const Lexer = struct {
