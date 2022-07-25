@@ -83,8 +83,7 @@ pub const Lexer = struct {
 
         while (true) : (self.pos += 1) {
             if (self.pos >= self.input.len) {
-                token.end = self.pos;
-                return token;
+                break;
             }
             const c = self.input[self.pos];
             switch (state) {
