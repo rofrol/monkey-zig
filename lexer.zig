@@ -82,7 +82,7 @@ pub const Lexer = struct {
         var state: State = .start;
 
         while (true) : (self.pos += 1) {
-            if (self.pos >= self.input.len) {
+            if (self.pos == self.input.len) {
                 break;
             }
             const c = self.input[self.pos];
