@@ -24,7 +24,7 @@ https://stackoverflow.com/questions/65758349/how-to-run-tests-from-go-project-ro
 
 ## Other implementations or also in zig
 
-- https://monkeylang.org/
+- https://monkeylang.org/#monkeys-in-the-wild
 - in Zig https://github.com/mhanberg/zonkey
 - in Zig https://github.com/Karitham/singe
 - https://github.com/Vexu/bog/blob/master/src/tokenizer.zig
