@@ -28,6 +28,8 @@ https://stackoverflow.com/questions/65758349/how-to-run-tests-from-go-project-ro
 - in Zig https://github.com/mhanberg/zonkey
 - in Zig https://github.com/Karitham/singe
 - https://github.com/Vexu/bog/blob/master/src/tokenizer.zig
+- https://github.com/catdevnull/awesome-zig#compilers-and-interpreters
+- https://github.com/C-BJ/awesome-zig#compiler--parser--interpreter
 - Toy implementation of Lisp written in Zig https://github.com/mattn/zig-lisp
 - https://github.com/search?q=language%3Azig+monkey&type=code
 - https://github.com/topics/monkey-programming-language
