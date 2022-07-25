@@ -54,9 +54,17 @@ test "next" {
         \\let five = 5;
     ;
     var l = Lexer.init(input);
-    _ = l.next();
-    const t1 = l.next();
-    const e1 = Token{ .tag = .identifier, .start = 0, .end = 3 };
-    try std.testing.expectEqual(e1.tag, t1.tag);
-    try std.testing.expectEqualStrings("let", input[t1.start..t1.end]);
+
+    const Expectation = struct { tag: Token.Tag, literal: []const u8 };
+    const expectations = [_]Expectation{
+        .{ .tag = .identifier, .literal = "indexoutofbounds" },
+        .{ .tag = .identifier, .literal = "let" },
+        .{ .tag = .identifier, .literal = "five" },
+        .{ .tag = .illegal, .literal = "=" },
+    };
+    for (expectations) |e| {
+        const t = l.next();
+        try std.testing.expectEqual(e.tag, t.tag);
+        try std.testing.expectEqualStrings(e.literal, input[t.start..t.end]);
+    }
 }
